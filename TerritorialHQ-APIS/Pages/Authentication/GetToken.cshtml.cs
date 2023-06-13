@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TerritorialHQ_APIS.Services;
+using TerritorialHQ_Library.Entities;
 
 namespace TerritorialHQ_APIS.Pages.Authentication
 {
@@ -31,9 +32,7 @@ namespace TerritorialHQ_APIS.Pages.Authentication
 
             var tokenClient = await _tokenClientService.GetByNameAsync(client) ?? throw new Exception("Unrecognized token client.");
 
-            var auth = await HttpContext.AuthenticateAsync("Discord");
-            var username = auth?.Principal?.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("Missing authentication information.");
-            var user = await _userService.FindAsync(username) ?? throw new Exception("Missing application user");
+            AppUser user = await GetOrCreateAppUser();
 
             var issuer = ConfigurationBinder.GetValue<string>(_configuration, "JWT_ISSUER");
             var audience = issuer;
@@ -43,8 +42,10 @@ namespace TerritorialHQ_APIS.Pages.Authentication
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>();
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.UserName));
-            claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
+            claims.Add(new Claim("Id", user.Id!));
+            claims.Add(new Claim("DiscordId", user.UserName!));
+            if (user.Role != null)
+                claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()!));
 
             var token = new JwtSecurityToken(
                     issuer,
@@ -59,6 +60,23 @@ namespace TerritorialHQ_APIS.Pages.Authentication
             var returnUrl = Url.Page(tokenClient.ReturnUrl, new { token = jwt_token });
 
             return Redirect(tokenClient.ReturnUrl + "?token=" + jwt_token);
+        }
+
+        private async Task<AppUser> GetOrCreateAppUser()
+        {
+            var auth = await HttpContext.AuthenticateAsync("Discord");
+            var username = auth?.Principal?.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("Missing authentication information.");
+
+            var user = await _userService.FindAsync(username);
+            if (user == null)
+            {
+                user = new AppUser() { UserName = username, DiscordId = ulong.Parse(username), Created = DateTime.UtcNow };
+                
+                _userService.Add(user);
+                await _userService.SaveChangesAsync();
+            }
+
+            return user;
         }
     }
 }
