@@ -13,9 +13,18 @@ namespace TerritorialHQ_APIS.Services
 
         }
 
-        public async Task<AppUser?> GetByUsernameAsync(string userName)
+        public override async Task<AppUser?> FindAsync(string id)
         {
-            return await Query.FirstOrDefaultAsync(u => u.UserName == userName);
+            var user = await Query.FirstOrDefaultAsync(u => u.UserName == id);
+            if (user != null)
+                return user;
+
+            return await Query.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<List<AppUser>> GetUsersInRoleAsync(AppUserRole role)
+        {
+            return await Query.Where(u => u.Role == role).ToListAsync();
         }
     }
 }

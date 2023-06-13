@@ -29,19 +29,11 @@ namespace TerritorialHQ_APIS.Pages.Authentication
             if (client == null)
                 throw new Exception("Missing token client.");
 
-            var tokenClient = await _tokenClientService.GetByNameAsync(client);
-            if (tokenClient == null)
-                throw new Exception("Unrecognized token client.");
+            var tokenClient = await _tokenClientService.GetByNameAsync(client) ?? throw new Exception("Unrecognized token client.");
 
             var auth = await HttpContext.AuthenticateAsync("Discord");
-            var username = auth?.Principal?.FindFirstValue(ClaimTypes.NameIdentifier); ;
-            if (username == null)
-                throw new Exception("Missing authentication information.");
-
-            var user = await _userService.GetByUsernameAsync(username);
-            if (user == null)
-                throw new Exception("Missing application user");
-
+            var username = auth?.Principal?.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new Exception("Missing authentication information.");
+            var user = await _userService.FindAsync(username) ?? throw new Exception("Missing application user");
 
             var issuer = ConfigurationBinder.GetValue<string>(_configuration, "JWT_ISSUER");
             var audience = issuer;
@@ -58,7 +50,7 @@ namespace TerritorialHQ_APIS.Pages.Authentication
                     issuer,
                     audience,
                     claims,
-                    expires: DateTime.Now.AddDays(7),
+                    expires: DateTime.Now.AddHours(8),
                     signingCredentials: credentials
             );
 

@@ -50,7 +50,7 @@ namespace TerritorialHQ_APIS.Pages.Authentication
             if (discordId == null)
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl, Error = "Discord authentication failed" });
 
-            var existingUser = await _appUserService.GetByUsernameAsync(discordId);
+            var existingUser = await _appUserService.FindAsync(discordId);
             if (existingUser != null)
             {
                 SignInUser(existingUser);

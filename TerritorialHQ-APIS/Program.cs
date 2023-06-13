@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TerritorialHQ_APIS.Models.Data;
 using TerritorialHQ_APIS.Services;
+using TerritorialHQ_APIS.Services.Base;
+using TerritorialHQ_Library.Entities;
 
 namespace TerritorialHQ_APIS
 {
@@ -57,13 +59,27 @@ namespace TerritorialHQ_APIS
 
             // Add services to the container.
             builder.Services.AddSingleton(typeof(LoggerService));
-            builder.Services.AddScoped(typeof(AppUserService));
             builder.Services.AddScoped(typeof(TokenClientService));
+
+            builder.Services.AddScoped(typeof(AppUserService));
             builder.Services.AddScoped(typeof(JournalArticleService));
+            builder.Services.AddScoped(typeof(ClanService));
+            builder.Services.AddScoped(typeof(ClanUserRelationService));
+            builder.Services.AddScoped(typeof(NavigationEntryService));
+            builder.Services.AddScoped(typeof(ContentPageService));
+
+            builder.Services.AddScoped(typeof(IBaseService<AppUser>), typeof(AppUserService));
+            builder.Services.AddScoped(typeof(IBaseService<JournalArticle>), typeof(JournalArticleService));
+            builder.Services.AddScoped(typeof(IBaseService<Clan>), typeof(ClanService));
+            builder.Services.AddScoped(typeof(IBaseService<ClanUserRelation>), typeof(ClanUserRelationService));
+            builder.Services.AddScoped(typeof(IBaseService<NavigationEntry>), typeof(NavigationEntryService));
+            builder.Services.AddScoped(typeof(IBaseService<ContentPage>), typeof(ContentPageService));
 
             builder.Services.AddControllers();
             builder.Services.AddRazorPages();
             builder.Services.AddHttpContextAccessor();
+
+
 
             var app = builder.Build();
 

@@ -6,7 +6,7 @@ using TerritorialHQ_Library.Entities;
 
 namespace TerritorialHQ_APIS.Services.Base
 {
-    public abstract class BaseService<TEntity> : IBaseService where TEntity : class, IEntity
+    public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class, IEntity
     {
         protected readonly ApplicationDbContext _context;
         protected readonly LoggerService _logger;

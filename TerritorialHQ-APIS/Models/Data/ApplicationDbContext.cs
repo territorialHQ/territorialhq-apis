@@ -11,8 +11,13 @@ namespace TerritorialHQ_APIS.Models.Data
         {
         }
 
-        public DbSet<AppUser> Users { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<TokenClient> TokenClients { get; set; }
         public DbSet<JournalArticle> JournalArticles { get; set; }
+        public DbSet<Clan> Clans { get; set; }
+        public DbSet<ClanUserRelation> ClanUserRelations { get; set; }
+        public DbSet<ContentPage> ContentPages { get; set; }
+        public DbSet<NavigationEntry> NavigationEntries { get; set; }
+
     }
 }
