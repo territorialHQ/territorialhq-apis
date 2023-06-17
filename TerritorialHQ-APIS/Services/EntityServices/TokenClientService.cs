@@ -7,7 +7,7 @@ namespace TerritorialHQ_APIS.Services
 {
     public class TokenClientService : BaseService<TokenClient>
     {
-        public TokenClientService(ApplicationDbContext context, LoggerService logger) : base(context, logger)
+        public TokenClientService(ApplicationDbContext context, LoggerService logger, IHttpContextAccessor httpContextAccessor) : base(context, logger, httpContextAccessor)
         {
 
         }

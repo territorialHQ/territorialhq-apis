@@ -7,7 +7,7 @@ namespace TerritorialHQ_APIS.Services
 {
     public class ClanUserRelationService : BaseService<ClanUserRelation>
     {
-        public ClanUserRelationService(ApplicationDbContext context, LoggerService logger) : base(context, logger)
+        public ClanUserRelationService(ApplicationDbContext context, LoggerService logger, IHttpContextAccessor httpContextAccessor) : base(context, logger, httpContextAccessor)
         {
         }
 
@@ -18,6 +18,11 @@ namespace TerritorialHQ_APIS.Services
                 return relation;
 
             return await Query.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<List<ClanUserRelation>?> GetByClanAsync(string id)
+        {
+            return await Query.Where(u => u.ClanId == id).ToListAsync();
         }
     }
 }

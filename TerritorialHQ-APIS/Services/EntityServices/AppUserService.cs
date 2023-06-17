@@ -8,7 +8,7 @@ namespace TerritorialHQ_APIS.Services
 {
     public class AppUserService : BaseService<AppUser>
     {
-        public AppUserService(ApplicationDbContext context, LoggerService logger) : base(context, logger)
+        public AppUserService(ApplicationDbContext context, LoggerService logger, IHttpContextAccessor httpContextAccessor) : base(context, logger, httpContextAccessor)
         {
 
         }

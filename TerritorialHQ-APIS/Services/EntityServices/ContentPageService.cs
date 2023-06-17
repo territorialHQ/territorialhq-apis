@@ -8,7 +8,7 @@ namespace TerritorialHQ_APIS.Services
 {
     public class ContentPageService : BaseService<ContentPage>
     {
-        public ContentPageService(ApplicationDbContext context, LoggerService logger) : base(context, logger)
+        public ContentPageService(ApplicationDbContext context, LoggerService logger, IHttpContextAccessor httpContextAccessor) : base(context, logger, httpContextAccessor)
         {
 
         }

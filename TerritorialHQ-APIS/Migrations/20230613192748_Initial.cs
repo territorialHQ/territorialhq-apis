@@ -19,9 +19,11 @@ namespace TerritorialHQ_APIS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Creator = table.Column<string>(type: "longtext", nullable: true),
                     UserName = table.Column<string>(type: "longtext", nullable: true),
                     DiscordId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    Public = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: true),
                     Role = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -35,8 +37,14 @@ namespace TerritorialHQ_APIS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Creator = table.Column<string>(type: "longtext", nullable: true),
                     Name = table.Column<string>(type: "longtext", nullable: true),
                     GuildId = table.Column<ulong>(type: "bigint unsigned", nullable: false),
+                    Foundation = table.Column<string>(type: "longtext", nullable: true),
+                    Founders = table.Column<string>(type: "longtext", nullable: true),
+                    Motto = table.Column<string>(type: "longtext", nullable: true),
+                    BotEndpoint = table.Column<string>(type: "longtext", nullable: true),
                     LogoFile = table.Column<string>(type: "longtext", nullable: true),
                     BannerFile = table.Column<string>(type: "longtext", nullable: true),
                     DiscordLink = table.Column<string>(type: "longtext", nullable: true),
@@ -55,6 +63,8 @@ namespace TerritorialHQ_APIS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Creator = table.Column<string>(type: "longtext", nullable: true),
                     DisplayName = table.Column<string>(type: "longtext", nullable: true),
                     Content = table.Column<string>(type: "longtext", nullable: true),
                     SidebarContent = table.Column<string>(type: "longtext", nullable: true),
@@ -71,6 +81,8 @@ namespace TerritorialHQ_APIS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Creator = table.Column<string>(type: "longtext", nullable: true),
                     Title = table.Column<string>(type: "longtext", nullable: true),
                     Subtitle = table.Column<string>(type: "longtext", nullable: true),
                     PublishFrom = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -92,6 +104,8 @@ namespace TerritorialHQ_APIS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Creator = table.Column<string>(type: "longtext", nullable: true),
                     Name = table.Column<string>(type: "longtext", nullable: true),
                     ReturnUrl = table.Column<string>(type: "longtext", nullable: true)
                 },
@@ -106,6 +120,8 @@ namespace TerritorialHQ_APIS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Creator = table.Column<string>(type: "longtext", nullable: true),
                     ClanId = table.Column<string>(type: "varchar(255)", nullable: true),
                     AppUserId = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
@@ -130,6 +146,8 @@ namespace TerritorialHQ_APIS.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Creator = table.Column<string>(type: "longtext", nullable: true),
                     Name = table.Column<string>(type: "longtext", nullable: true),
                     Slug = table.Column<string>(type: "longtext", nullable: true),
                     Public = table.Column<bool>(type: "tinyint(1)", nullable: false),

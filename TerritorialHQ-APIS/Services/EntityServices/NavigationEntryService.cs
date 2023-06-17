@@ -6,7 +6,7 @@ namespace TerritorialHQ_APIS.Services
 {
     public class NavigationEntryService : BaseService<NavigationEntry>
     {
-        public NavigationEntryService(ApplicationDbContext context, LoggerService logger) : base(context, logger)
+        public NavigationEntryService(ApplicationDbContext context, LoggerService logger, IHttpContextAccessor httpContextAccessor) : base(context, logger, httpContextAccessor)
         {
         }
     }

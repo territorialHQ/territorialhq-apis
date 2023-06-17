@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,6 +7,7 @@
     <RootNamespace>TerritorialHQ_APIS</RootNamespace>
     <UserSecretsId>ccc8623a-5e77-4247-b4bd-b75b8f438b7f</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,9 +42,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="TerritorialHQ Class Libraries">
-      <HintPath>..\..\territorialhq-lib\TerritorialHQ Class Libraries\bin\Release\net7.0\TerritorialHQ Class Libraries.dll</HintPath>
+    <Reference Include="tthq-lib">
+      <HintPath>tthq-lib.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

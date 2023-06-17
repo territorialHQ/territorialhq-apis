@@ -11,7 +11,7 @@ using TerritorialHQ_APIS.Models.Data;
 namespace TerritorialHQ_APIS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230613080027_Initial")]
+    [Migration("20230613192748_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,14 +31,20 @@ namespace TerritorialHQ_APIS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("Creator")
+                        .HasColumnType("longtext");
 
                     b.Property<ulong>("DiscordId")
                         .HasColumnType("bigint unsigned");
 
+                    b.Property<bool>("Public")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int?>("Role")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserName")
                         .HasColumnType("longtext");
@@ -57,10 +63,22 @@ namespace TerritorialHQ_APIS.Migrations
                     b.Property<string>("BannerFile")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("BotEndpoint")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
                     b.Property<string>("DiscordLink")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Foundation")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Founders")
                         .HasColumnType("longtext");
 
                     b.Property<ulong?>("GuildId")
@@ -76,8 +94,14 @@ namespace TerritorialHQ_APIS.Migrations
                     b.Property<string>("LogoFile")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Motto")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -95,6 +119,12 @@ namespace TerritorialHQ_APIS.Migrations
 
                     b.Property<string>("ClanId")
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -117,11 +147,17 @@ namespace TerritorialHQ_APIS.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Creator")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("DisplayName")
                         .HasColumnType("longtext");
 
                     b.Property<string>("SidebarContent")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -135,6 +171,9 @@ namespace TerritorialHQ_APIS.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Body")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Creator")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Image")
@@ -158,6 +197,9 @@ namespace TerritorialHQ_APIS.Migrations
                     b.Property<string>("Teaser")
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
 
@@ -174,6 +216,9 @@ namespace TerritorialHQ_APIS.Migrations
 
                     b.Property<string>("ContentPageId")
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Creator")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ExternalUrl")
                         .HasColumnType("longtext");
@@ -193,6 +238,9 @@ namespace TerritorialHQ_APIS.Migrations
                     b.Property<string>("Slug")
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ContentPageId");
@@ -208,11 +256,17 @@ namespace TerritorialHQ_APIS.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("Creator")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
                     b.Property<string>("ReturnUrl")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 

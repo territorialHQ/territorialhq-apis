@@ -60,11 +60,10 @@ namespace TerritorialHQ_APIS.Pages.Authentication
                 var user = new AppUser()
                 {
                     UserName = discordId,
-                    DiscordId = ulong.Parse(discordId),
-                    Created = DateTime.UtcNow
+                    DiscordId = ulong.Parse(discordId)
                 };
 
-                _appUserService.Add(user);
+                await _appUserService.Add(user);
                 await _appUserService.SaveChangesAsync();
 
                 SignInUser(user);

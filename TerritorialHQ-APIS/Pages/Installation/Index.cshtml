@@ -1,0 +1,25 @@
+﻿@page
+@model TerritorialHQ_APIS.Pages.Installation.IndexModel
+@{
+}
+
+<h1>APIS Installation</h1>
+
+<form method="post">
+    <div class="">
+        <label class="form-label" asp-for="InitialDiscordId"></label>
+        <input class="form-control" asp-for="InitialDiscordId" />
+        <span asp-validation-for="InitialDiscordId" class="text-danger"></span>
+    </div>
+    <div class="">
+        <label class="form-label" asp-for="InitialTokenClient"></label>
+        <input class="form-control" asp-for="InitialTokenClient" />
+        <span asp-validation-for="InitialTokenClient" class="text-danger"></span>
+    </div>
+    <div class="">
+        <label class="form-label" asp-for="InitialTokenClientUrl"></label>
+        <input class="form-control" asp-for="InitialTokenClientUrl" />
+        <span asp-validation-for="InitialTokenClientUrl" class="text-danger"></span>
+    </div>
+    <button class="btn btn-primary" type="submit">Save initial settings</button>
+</form>

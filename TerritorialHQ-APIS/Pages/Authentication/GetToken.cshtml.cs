@@ -70,9 +70,9 @@ namespace TerritorialHQ_APIS.Pages.Authentication
             var user = await _userService.FindAsync(username);
             if (user == null)
             {
-                user = new AppUser() { UserName = username, DiscordId = ulong.Parse(username), Created = DateTime.UtcNow };
+                user = new AppUser() { UserName = username, DiscordId = ulong.Parse(username) };
                 
-                _userService.Add(user);
+                await _userService.Add(user);
                 await _userService.SaveChangesAsync();
             }
 

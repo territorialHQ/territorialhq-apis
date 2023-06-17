@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using TerritorialHQ_APIS.Models.Data;
 using TerritorialHQ_Library.Entities;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace TerritorialHQ_APIS.Services.Base
 {
@@ -10,11 +12,13 @@ namespace TerritorialHQ_APIS.Services.Base
     {
         protected readonly ApplicationDbContext _context;
         protected readonly LoggerService _logger;
+        protected readonly IHttpContextAccessor _httpContextAccessor;
 
-        protected BaseService(ApplicationDbContext context, LoggerService logger)
+        protected BaseService(ApplicationDbContext context, LoggerService logger, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public virtual IQueryable<TEntity> Query => _context.Set<TEntity>();
@@ -34,9 +38,26 @@ namespace TerritorialHQ_APIS.Services.Base
             return _context.Update(entity);
         }
 
-        public EntityEntry<TEntity> Add(TEntity entity)
+        public async Task<EntityEntry<TEntity>> Add(TEntity entity)
         {
+            entity.Creator = GetIdFromToken();
+            entity.Timestamp = DateTime.UtcNow;
+
             return _context.Set<TEntity>().Add(entity);
+        }
+
+        private string? GetIdFromToken()
+        {
+            string? creator = null;
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext.Request.Headers.ContainsKey("Authorization"))
+            {
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                var token = tokenHandler.ReadJwtToken(httpContext.Request.Headers["Authorization"].ToString()[7..]);
+
+                creator = token.Claims.FirstOrDefault(c => c.Type == "DiscordId")?.Value;
+            }
+            return creator;
         }
 
         public EntityEntry<TEntity> Attach(TEntity entity) => _context.Attach(entity);
@@ -46,47 +67,32 @@ namespace TerritorialHQ_APIS.Services.Base
 
         public virtual Task<TEntity?> FindAsync(string id) => Query.FirstOrDefaultAsync(e => e.Id == id);
 
-        public Task<int> SaveChangesAsync(bool writeLog = false, ClaimsPrincipal? user = null)
+        public Task<int> SaveChangesAsync()
         {
             var entries = _context.ChangeTracker.Entries();
+            
             string log = "";
+            string? user = GetIdFromToken() ?? "UNKOWN USER";
 
-            if (user != null)
-                log += "USER " + user?.Identity?.Name + ": ";
-            else
-                log += "UNKOWN USER: ";
+            log += "USER " + user + ": ";
 
-            bool anyChanges = false;
             foreach (var entry in entries)
             {
                 if (entry.State != EntityState.Unchanged)
                 {
                     if (entry.State == EntityState.Modified)
                     {
-                        log += "UPDATED ";
+                        log += string.Format("UPDATED ENTITY {0} IN TABLE {1} WITH NEW VALUES ", entry.CurrentValues["Id"]?.ToString(), entry.Metadata.Name);
+
                         foreach (var v in entry.CurrentValues.Properties)
                         {
-                            var cv = entry.CurrentValues[v]?.ToString();
-                            var ov = entry.OriginalValues[v]?.ToString();
-
-                            if (cv != ov)
-                            {
-                                anyChanges = true;
-                                log += v.Name + " (OLD: " + ov + ", NEW: " + cv + ") ";
-                            }
-                        }
-
-                        if (anyChanges)
-                        {
-                            log += " IN DATABASE " + entry.Metadata.Name?.Replace("IBB_Core.Models.", "");
-                            log += " FOR ENTITY " + entry.CurrentValues["Id"]?.ToString() + ";";
+                            log += v.Name + " = " + entry.CurrentValues[v]?.ToString() + ", ";
                         }
                     }
 
                     if (entry.State == EntityState.Added)
                     {
-                        log += "ADDED ENTITY TO TABLE " + entry.Metadata.Name?.Replace("IBB_Core.Models.", "");
-                        log += " WITH NEW VALUES ";
+                        log += "ADDED ENTITY TO TABLE " + entry.Metadata.Name + " WITH NEW VALUES ";
 
                         foreach (var v in entry.CurrentValues.Properties)
                         {
@@ -96,8 +102,7 @@ namespace TerritorialHQ_APIS.Services.Base
 
                     if (entry.State == EntityState.Deleted)
                     {
-                        log += "DELETED ENTITY FROM TABLE " + entry.Metadata.Name?.Replace("IBB_Core.Models.", "");
-                        log += " WITH ORIGINAL VALUES ";
+                        log += string.Format("DELETED ENTITY {0} FROM TABLE {1} WITH ORIGINAL VALUES ", entry.CurrentValues["Id"]?.ToString(), entry.Metadata.Name);
 
                         foreach (var v in entry.OriginalValues.Properties)
                         {
@@ -108,7 +113,7 @@ namespace TerritorialHQ_APIS.Services.Base
                 }
             }
 
-            if (writeLog && !String.IsNullOrEmpty(log))
+            if (!string.IsNullOrEmpty(log))
                 _logger.Log.Information(log);
 
             return _context.SaveChangesAsync();

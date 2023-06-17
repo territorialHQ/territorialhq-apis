@@ -7,7 +7,7 @@ namespace TerritorialHQ_APIS.Services
 {
     public class JournalArticleService : BaseService<JournalArticle>
     {
-        public JournalArticleService(ApplicationDbContext context, LoggerService logger) : base(context, logger)
+        public JournalArticleService(ApplicationDbContext context, LoggerService logger, IHttpContextAccessor httpContextAccessor) : base(context, logger, httpContextAccessor)
         {
 
         }

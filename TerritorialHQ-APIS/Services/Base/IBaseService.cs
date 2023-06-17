@@ -9,7 +9,7 @@ namespace TerritorialHQ_APIS.Services.Base
         IQueryable<TEntity> CustomQuery { get; }
         IQueryable<TEntity> Query { get; }
 
-        EntityEntry<TEntity> Add(TEntity entity);
+        Task<EntityEntry<TEntity>> Add(TEntity entity);
         EntityEntry<TEntity> Attach(TEntity entity);
         bool Exists(string id);
         Task<bool> ExistsAsync(string id);
@@ -18,7 +18,7 @@ namespace TerritorialHQ_APIS.Services.Base
         Task<List<TEntity>> GetAllAsync();
         void Remove(TEntity entity);
         Task RemoveAsync(string id);
-        Task<int> SaveChangesAsync(bool writeLog = false, ClaimsPrincipal? user = null);
+        Task<int> SaveChangesAsync();
         EntityEntry<TEntity> Update(TEntity entity);
     }
 }
