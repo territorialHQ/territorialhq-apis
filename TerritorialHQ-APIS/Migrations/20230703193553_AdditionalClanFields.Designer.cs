@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TerritorialHQ_APIS.Models.Data;
 
@@ -10,9 +11,11 @@ using TerritorialHQ_APIS.Models.Data;
 namespace TerritorialHQ_APIS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230703193553_AdditionalClanFields")]
+    partial class AdditionalClanFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,12 +66,6 @@ namespace TerritorialHQ_APIS.Migrations
                     b.Property<string>("BotEndpoint")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Color1")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Color2")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Community")
                         .HasColumnType("longtext");
 
@@ -112,9 +109,6 @@ namespace TerritorialHQ_APIS.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Tag")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("Timestamp")

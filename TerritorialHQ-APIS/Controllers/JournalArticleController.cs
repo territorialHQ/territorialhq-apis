@@ -10,13 +10,25 @@ using TerritorialHQ_Library.Entities;
 
 namespace TerritorialHQ_APIS.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
     public class JournalArticleController : BaseDtoController<JournalArticle, DTOJournalArticle>
     {
         public JournalArticleController(IBaseService<JournalArticle> baseService) : base(baseService)
         {
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Listing")]
+        public async Task<List<DTOJournalArticleListEntry>> Listing()
+        {
+            var items = await ((JournalArticleService)_baseService).GetAllAsync();
+
+            List<DTOJournalArticleListEntry> response = new();
+            foreach (var item in items)
+            {
+                response.Add(item.GetDtoListEntry());
+            }
+
+            return response;
         }
     }
 }

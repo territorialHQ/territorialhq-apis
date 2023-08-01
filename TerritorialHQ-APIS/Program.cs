@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using TerritorialHQ_APIS.Models.Data;
 using TerritorialHQ_APIS.Services;
@@ -59,6 +60,8 @@ namespace TerritorialHQ_APIS
 
             // Add services to the container.
             builder.Services.AddSingleton(typeof(LoggerService));
+            builder.Services.AddSingleton(typeof(DiscordBotService));
+
             builder.Services.AddScoped(typeof(TokenClientService));
 
             builder.Services.AddScoped(typeof(AppUserService));
@@ -75,11 +78,15 @@ namespace TerritorialHQ_APIS
             builder.Services.AddScoped(typeof(IBaseService<NavigationEntry>), typeof(NavigationEntryService));
             builder.Services.AddScoped(typeof(IBaseService<ContentPage>), typeof(ContentPageService));
 
+            builder.Services.AddMemoryCache();
             builder.Services.AddControllers();
             builder.Services.AddRazorPages();
             builder.Services.AddHttpContextAccessor();
 
-
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
 
             var app = builder.Build();
 
@@ -92,6 +99,12 @@ namespace TerritorialHQ_APIS
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TTHQ API V1");
+            });
 
             app.UseCookiePolicy(new CookiePolicyOptions()
             {
