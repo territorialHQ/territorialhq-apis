@@ -77,6 +77,7 @@ namespace TerritorialHQ_APIS
             builder.Services.AddScoped(typeof(IBaseService<ClanUserRelation>), typeof(ClanUserRelationService));
             builder.Services.AddScoped(typeof(IBaseService<NavigationEntry>), typeof(NavigationEntryService));
             builder.Services.AddScoped(typeof(IBaseService<ContentPage>), typeof(ContentPageService));
+            builder.Services.AddScoped(typeof(IBaseService<ContentCreator>), typeof(ContentCreatorService));
 
             builder.Services.AddMemoryCache();
             builder.Services.AddControllers();

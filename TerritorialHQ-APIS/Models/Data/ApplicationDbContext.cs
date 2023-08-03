@@ -18,6 +18,7 @@ namespace TerritorialHQ_APIS.Models.Data
         public DbSet<ClanUserRelation> ClanUserRelations { get; set; }
         public DbSet<ContentPage> ContentPages { get; set; }
         public DbSet<NavigationEntry> NavigationEntries { get; set; }
+        public DbSet<ContentCreator> ContentCreators { get; set; }
 
     }
 }

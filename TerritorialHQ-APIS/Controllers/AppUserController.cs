@@ -14,10 +14,10 @@ namespace TerritorialHQ_APIS.Controllers
         {
         }
 
+
         [Authorize(Roles = "Administrator, Staff")]
         public override async Task<List<DTOAppUser>> Get() => await base.Get();
 
-        [Authorize(Roles = "Administrator, Staff")]
         public override async Task<DTOAppUser?> Get(string? id) => await base.Get(id);
 
         [Authorize(Roles = "Administrator, Staff")]
@@ -33,6 +33,20 @@ namespace TerritorialHQ_APIS.Controllers
             return result;
         }
 
-        
+        [HttpGet("Public/{id}")]
+        public virtual async Task<bool> Public(string id)
+        {
+            var user = await ((AppUserService)_baseService).FindAsync(id);
+
+            if (user == null)
+                return false;
+
+            user.Public = !user.Public;
+            _baseService.Update(user);
+
+            await _baseService.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
