@@ -85,7 +85,7 @@ namespace TerritorialHQ_APIS.Controllers.Base
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         public virtual async Task<bool> Delete(string? id)
         {
             if (id == null)

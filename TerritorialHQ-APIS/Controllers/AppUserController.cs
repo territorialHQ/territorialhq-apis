@@ -20,7 +20,7 @@ namespace TerritorialHQ_APIS.Controllers
 
         public override async Task<DTOAppUser?> Get(string? id) => await base.Get(id);
 
-        [Authorize(Roles = "Administrator, Staff")]
+        [Authorize(Roles = "Administrator")]
         [HttpGet("RoleUsers/{id}")]
         public virtual async Task<List<DTOAppUser>> RoleUsers(AppUserRole id)
         {

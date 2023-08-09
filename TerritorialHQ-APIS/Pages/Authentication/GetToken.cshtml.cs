@@ -44,14 +44,17 @@ namespace TerritorialHQ_APIS.Pages.Authentication
             var claims = new List<Claim>();
             claims.Add(new Claim("Id", user.Id!));
             claims.Add(new Claim("DiscordId", user.UserName!));
-            if (user.Role != null)
-                claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()!));
+            if (user.Roles != null)
+            {
+                foreach (var role in user.Roles)
+                    claims.Add(new Claim(ClaimTypes.Role, role.Role.ToString()));
+            }
 
             var token = new JwtSecurityToken(
                     issuer,
                     audience,
                     claims,
-                    expires: DateTime.Now.AddHours(8),
+                    expires: DateTime.Now.AddDays(7),
                     signingCredentials: credentials
             );
 

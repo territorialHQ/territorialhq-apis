@@ -24,7 +24,7 @@ namespace TerritorialHQ_APIS.Services
 
         public async Task<List<AppUser>> GetUsersInRoleAsync(AppUserRole role)
         {
-            return await Query.Where(u => u.Role == role).ToListAsync();
+            return await Query.Where(u => u.Roles.Any(r => r.Role == role)).ToListAsync();
         }
     }
 }

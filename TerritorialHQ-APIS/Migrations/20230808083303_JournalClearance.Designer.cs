@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TerritorialHQ_APIS.Models.Data;
 
@@ -10,9 +11,11 @@ using TerritorialHQ_APIS.Models.Data;
 namespace TerritorialHQ_APIS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230808083303_JournalClearance")]
+    partial class JournalClearance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,31 +52,6 @@ namespace TerritorialHQ_APIS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppUsers");
-                });
-
-            modelBuilder.Entity("TerritorialHQ_Library.Entities.AppUserRoleRelation", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Creator")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("AppUserRoleRelation");
                 });
 
             modelBuilder.Entity("TerritorialHQ_Library.Entities.Clan", b =>
@@ -127,9 +105,6 @@ namespace TerritorialHQ_APIS.Migrations
                     b.Property<bool>("IsPublished")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Leader")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("LogoFile")
                         .HasColumnType("longtext");
 
@@ -157,42 +132,6 @@ namespace TerritorialHQ_APIS.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clans");
-                });
-
-            modelBuilder.Entity("TerritorialHQ_Library.Entities.ClanRelation", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ClanId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Creator")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("DiplomaticRelation")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HierachicalRelation")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MilitaryRelation")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TargetClanId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClanId");
-
-                    b.HasIndex("TargetClanId");
-
-                    b.ToTable("ClanRelation");
                 });
 
             modelBuilder.Entity("TerritorialHQ_Library.Entities.ClanUserRelation", b =>
@@ -392,30 +331,6 @@ namespace TerritorialHQ_APIS.Migrations
                     b.ToTable("TokenClients");
                 });
 
-            modelBuilder.Entity("TerritorialHQ_Library.Entities.AppUserRoleRelation", b =>
-                {
-                    b.HasOne("TerritorialHQ_Library.Entities.AppUser", "AppUser")
-                        .WithMany("Roles")
-                        .HasForeignKey("AppUserId");
-
-                    b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("TerritorialHQ_Library.Entities.ClanRelation", b =>
-                {
-                    b.HasOne("TerritorialHQ_Library.Entities.Clan", "Clan")
-                        .WithMany("ClanRelations")
-                        .HasForeignKey("ClanId");
-
-                    b.HasOne("TerritorialHQ_Library.Entities.Clan", "TargetClan")
-                        .WithMany()
-                        .HasForeignKey("TargetClanId");
-
-                    b.Navigation("Clan");
-
-                    b.Navigation("TargetClan");
-                });
-
             modelBuilder.Entity("TerritorialHQ_Library.Entities.ClanUserRelation", b =>
                 {
                     b.HasOne("TerritorialHQ_Library.Entities.AppUser", "AppUser")
@@ -446,15 +361,8 @@ namespace TerritorialHQ_APIS.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("TerritorialHQ_Library.Entities.AppUser", b =>
-                {
-                    b.Navigation("Roles");
-                });
-
             modelBuilder.Entity("TerritorialHQ_Library.Entities.Clan", b =>
                 {
-                    b.Navigation("ClanRelations");
-
                     b.Navigation("ClanUserRelations");
                 });
 
