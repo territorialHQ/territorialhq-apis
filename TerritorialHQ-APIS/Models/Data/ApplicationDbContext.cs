@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using TerritorialHQ_APIS.Migrations;
 using TerritorialHQ_Library.Entities;
 
 namespace TerritorialHQ_APIS.Models.Data
@@ -19,6 +20,8 @@ namespace TerritorialHQ_APIS.Models.Data
         public DbSet<ContentPage> ContentPages { get; set; }
         public DbSet<NavigationEntry> NavigationEntries { get; set; }
         public DbSet<ContentCreator> ContentCreators { get; set; }
+        public DbSet<ClanRelation> ClanRelation { get; set; }
+        public DbSet<CommunityEvent> CommunityEvents { get; set; }
 
     }
 }
