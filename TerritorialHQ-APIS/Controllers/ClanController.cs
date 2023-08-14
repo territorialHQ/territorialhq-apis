@@ -15,7 +15,7 @@ namespace TerritorialHQ_APIS.Controllers
         }
 
         [Authorize(Roles = "Administrator, Staff")]
-        public override async Task<bool> Post([FromBody] DTOClan item) => await base.Post(item);
+        public override async Task<string?> Post([FromBody] DTOClan item) => await base.Post(item);
 
 
         [HttpGet("Listing")]

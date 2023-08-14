@@ -44,7 +44,7 @@ namespace TerritorialHQ_APIS.Controllers.Base
 
         [HttpPost]
         [Authorize]
-        public virtual async Task<bool> Post([FromBody] TDto item)
+        public virtual async Task<string?> Post([FromBody] TDto item)
         {
             try
             {
@@ -53,10 +53,10 @@ namespace TerritorialHQ_APIS.Controllers.Base
 
                 await _baseService.Add(entity);
                 await _baseService.SaveChangesAsync();
-                return true;
+                return entity.Id;
             }
             catch {
-                return false;
+                return null;
             }
         }
 
