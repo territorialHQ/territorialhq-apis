@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TerritorialHQ_APIS.Models.Data;
 
@@ -10,9 +11,11 @@ using TerritorialHQ_APIS.Models.Data;
 namespace TerritorialHQ_APIS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230814083115_ContentPageUserRelations")]
+    partial class ContentPageUserRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,12 +324,6 @@ namespace TerritorialHQ_APIS.Migrations
 
                     b.Property<string>("DisplayName")
                         .HasColumnType("longtext");
-
-                    b.Property<bool>("InReview")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsPublished")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SidebarContent")
                         .HasColumnType("longtext");
